@@ -1,0 +1,14 @@
+PRAGMA foreign_keys=ON;
+CREATE TABLE users (id TEXT PRIMARY KEY, name TEXT NOT NULL, avatar TEXT NOT NULL, root_key TEXT NOT NULL, created INTEGER NOT NULL);
+CREATE TABLE devices (id TEXT PRIMARY KEY, user_id TEXT NOT NULL REFERENCES users(id), label TEXT NOT NULL, sign_key TEXT NOT NULL, enc_key TEXT NOT NULL, certificate TEXT NOT NULL, revoked INTEGER NOT NULL DEFAULT 0, created INTEGER NOT NULL);
+CREATE INDEX devices_user ON devices(user_id);
+CREATE TABLE nonces (nonce TEXT PRIMARY KEY, expires INTEGER NOT NULL);
+CREATE TABLE tickets (id TEXT PRIMARY KEY, user_id TEXT NOT NULL, device_id TEXT NOT NULL, expires INTEGER NOT NULL);
+CREATE TABLE contacts (owner TEXT NOT NULL REFERENCES users(id), peer TEXT NOT NULL REFERENCES users(id), requested_by TEXT NOT NULL, state TEXT NOT NULL CHECK(state IN ('pending','accepted','blocked')), created INTEGER NOT NULL, PRIMARY KEY(owner,peer));
+CREATE TABLE conversations (id TEXT PRIMARY KEY, kind TEXT NOT NULL CHECK(kind IN ('direct','group')), title TEXT NOT NULL, owner TEXT NOT NULL REFERENCES users(id), created INTEGER NOT NULL);
+CREATE TABLE members (chat_id TEXT NOT NULL REFERENCES conversations(id), user_id TEXT NOT NULL REFERENCES users(id), role TEXT NOT NULL CHECK(role IN ('owner','admin','member')), PRIMARY KEY(chat_id,user_id));
+CREATE TABLE mailbox (id TEXT NOT NULL, recipient_device TEXT NOT NULL REFERENCES devices(id), sender TEXT NOT NULL, sender_device TEXT NOT NULL, chat_id TEXT NOT NULL REFERENCES conversations(id), envelope TEXT NOT NULL, created INTEGER NOT NULL, expires INTEGER NOT NULL, PRIMARY KEY(id,recipient_device));
+CREATE INDEX mailbox_recipient ON mailbox(recipient_device,created);
+CREATE TABLE blobs (id TEXT PRIMARY KEY, owner TEXT NOT NULL, chat_id TEXT NOT NULL REFERENCES conversations(id), size INTEGER NOT NULL, created INTEGER NOT NULL, expires INTEGER NOT NULL);
+CREATE TABLE invitations (id TEXT PRIMARY KEY, user_id TEXT NOT NULL REFERENCES users(id), payload TEXT NOT NULL, expires INTEGER NOT NULL, used INTEGER NOT NULL DEFAULT 0);
+CREATE TABLE limits (bucket TEXT PRIMARY KEY, count INTEGER NOT NULL, expires INTEGER NOT NULL);

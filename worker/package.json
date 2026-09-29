@@ -1,0 +1,1 @@
+{"name":"@welcome/worker","private":true,"type":"module","scripts":{"dev":"wrangler dev","deploy":"wrangler deploy","check":"tsc --noEmit","migrate:local":"wrangler d1 migrations apply welcome --local","migrate:remote":"wrangler d1 migrations apply welcome --remote"},"devDependencies":{"@cloudflare/workers-types":"^4.20250927.0","wrangler":"^4.40.0","typescript":"^5.9.0"}}

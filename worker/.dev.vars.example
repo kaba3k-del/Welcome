@@ -1,0 +1,3 @@
+# Optional TURN credentials; never put these in VITE variables.
+TURN_KEY_ID=
+TURN_KEY_TOKEN=

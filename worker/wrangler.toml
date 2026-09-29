@@ -1,0 +1,21 @@
+name = "welcome-api"
+main = "src/index.ts"
+compatibility_date = "2026-09-01"
+[vars]
+APP_ORIGIN = "http://localhost:5173"
+[[d1_databases]]
+binding = "DB"
+database_name = "welcome"
+database_id = "REPLACE_WITH_D1_DATABASE_ID"
+migrations_dir = "migrations"
+[[r2_buckets]]
+binding = "FILES"
+bucket_name = "welcome-encrypted-files"
+[[durable_objects.bindings]]
+name = "HUB"
+class_name = "UserHub"
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["UserHub"]
+[triggers]
+crons = ["0 * * * *"]

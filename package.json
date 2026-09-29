@@ -1,0 +1,26 @@
+{
+  "name": "welcome",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "web",
+    "worker"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w web",
+    "dev:worker": "npm run dev -w worker",
+    "build": "npm run build -w web && npm run check -w worker",
+    "test": "node --import tsx tests/crypto.test.ts && npm run test:ui",
+    "check": "npm run build && npm test",
+    "test:integration": "node --import tsx tests/integration.ts",
+    "format": "prettier --write web/src worker/src shared tests docs *.md *.json web/vite.config.ts",
+    "test:ui": "node tests/ui.test.mjs"
+  },
+  "devDependencies": {
+    "fake-indexeddb": "^6.2.5",
+    "jsdom": "^30.1.1",
+    "prettier": "^3.9.9",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0"
+  }
+}
