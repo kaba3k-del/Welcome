@@ -2,15 +2,12 @@ name = "welcome-api"
 main = "src/index.ts"
 compatibility_date = "2026-09-01"
 [vars]
-APP_ORIGIN = "http://localhost:5173"
+APP_ORIGIN = "https://welcome-6g2.pages.dev"
 [[d1_databases]]
 binding = "DB"
 database_name = "welcome"
-database_id = "REPLACE_WITH_D1_DATABASE_ID"
+database_id = "692eea0a-0124-4951-9b72-268290b38768"
 migrations_dir = "migrations"
-[[r2_buckets]]
-binding = "FILES"
-bucket_name = "welcome-encrypted-files"
 [[durable_objects.bindings]]
 name = "HUB"
 class_name = "UserHub"
